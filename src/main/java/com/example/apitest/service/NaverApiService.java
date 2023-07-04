@@ -19,7 +19,7 @@ public class NaverApiService {
 
     private final WebClient webClient;
 
-    public Mono<String> translateText(String text, String sourceLang, String targetLang) {
+    public Mono<?> translateText(String text, String sourceLang, String targetLang) {
 
         String apiUrl = "/papago/n2mt";
 
@@ -32,20 +32,20 @@ public class NaverApiService {
                 .uri(uriComponentsBuilder.build().toString())
                 .body(BodyInserters.empty())
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(Object.class);
     }
 
-    public Mono<String> searchBlog(String text) {
+    public Mono<?> searchBlog(String text) {
 
         String apiUrl = "/search/blog.json?query=" + text;
 
         return webClient.get()
                 .uri(apiUrl)
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(Object.class);
     }
 
-    public Mono<String> detectLanguage(String text) {
+    public Mono<?> detectLanguage(String text) {
 
         String apiUrl = "/papago/detectLangs?query=" + text;
 
@@ -53,7 +53,7 @@ public class NaverApiService {
                 .uri(apiUrl)
                 .body(BodyInserters.empty())
                 .retrieve()
-                .bodyToMono(String.class);
+                .bodyToMono(Object.class);
     }
 
     private String encodeText(String text) {
@@ -61,4 +61,13 @@ public class NaverApiService {
         return URLEncoder.encode(text, StandardCharsets.UTF_8);
     }
 
+    public Mono<?> romanizate(String name) {
+
+        String apiUrl = "/krdict/romanization?query=" + name;
+
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(Object.class);
+    }
 }

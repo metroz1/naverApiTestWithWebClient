@@ -17,7 +17,7 @@ public class NaverApiController {
     private final NaverApiService naverApiService;
 
     @PostMapping("/translations")
-    public Mono<String> translateText(@RequestBody TranslateRequestDto translateRequestDto) {
+    public Mono<?> translateText(@RequestBody TranslateRequestDto translateRequestDto) {
 
         System.out.println(translateRequestDto.getText());
         System.out.println(translateRequestDto.getSource());
@@ -27,14 +27,20 @@ public class NaverApiController {
     }
 
     @GetMapping("/search")
-    public Mono<String> searchBlog(@RequestParam(name = "text") String text) {
+    public Mono<?> searchBlog(@RequestParam(name = "text") String text) {
 
         return naverApiService.searchBlog(text);
     }
 
     @PostMapping("/detections-languages")
-    public Mono<String> detectLanguage(@RequestParam(name = "text") String text) {
+    public Mono<?> detectLanguage(@RequestParam(name = "text") String text) {
 
         return naverApiService.detectLanguage(text);
+    }
+
+    @GetMapping("/romanizations")
+    public Mono<?> romanizate(@RequestParam(name = "name") String name) {
+
+        return naverApiService.romanizate(name);
     }
 }
